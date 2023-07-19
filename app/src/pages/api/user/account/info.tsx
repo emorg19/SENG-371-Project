@@ -1,20 +1,18 @@
-const bcrypt = require("bcryptjs")
-import { accountRepo } from "@/helpers/api/account-repo"
-import type { NextApiRequest, NextApiResponse } from "next"
+const bcrypt = require('bcryptjs');
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { accountId } = req.body
+import { accountRepo } from '@/helpers/api/account-repo';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-  const account = await accountRepo.getRecord(accountId)
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { accountId } = req.body;
+
+  const account = await accountRepo.getRecord(accountId);
 
   if (!account) {
-    throw "account not found"
+    throw 'account not found';
   }
 
-  // return basic account info
+  // Return basic account info
   return res.status(200).json({
     user_id: account.user_id,
     account_id: account.account_id,
@@ -22,6 +20,7 @@ export default async function handler(
     savings: account.savings,
     credit: account.credit,
     credit_limit: account.credit_limit,
-    budget: account.budget
-  })
+    budget: account.budget,
+    spent: account.spent
+  });
 }

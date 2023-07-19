@@ -55,6 +55,7 @@ CREATE TABLE `accounts` (
   `credit` decimal(20,2) DEFAULT NULL,
   `credit_limit` decimal(10,2) DEFAULT NULL,
   `budget` decimal(20,2) DEFAULT NULL,
+  `spent` decimal(20,2) DEFAULT NULL,
 
   PRIMARY KEY (`account_id`),
   CONSTRAINT `accounts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)

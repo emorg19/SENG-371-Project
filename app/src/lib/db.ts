@@ -1,15 +1,15 @@
-import mysql from "mysql2"
+import mysql from 'mysql2';
 
-// create the connection to database, the pool will maintain connection while app is up
+// Create the connection to database, the pool will maintain connection while app is up
 const pool = mysql.createPool({
-  host: process.env.MYSQL_HOST || "localhost",
+  host: process.env.MYSQL_HOST || 'localhost',
   port: Number(process.env.MYSQL_PORT) || 3306,
-  database: process.env.MYSQL_DATABASE || "db",
-  user: process.env.MYSQL_USER || "root",
-  password: process.env.MYSQL_PASSWORD || "pass",
-})
+  database: process.env.MYSQL_DATABASE || 'db',
+  user: process.env.MYSQL_USER || 'root',
+  password: process.env.MYSQL_PASSWORD || 'pass'
+});
 
-const promisePool = pool.promise()
+const promisePool = pool.promise();
 
 /**
  * Execute Query run any query given to it. With query and values.
@@ -20,15 +20,13 @@ const promisePool = pool.promise()
  * @param {((string | number)[])} values
  * @return {*}
  */
-export default async function excuteQuery(
-  query: string,
-  values: (string | number)[]
-) {
+export default async function excuteQuery(query: string, values: (string | number)[]) {
   try {
-    const [rows] = await promisePool.query(query, values)
-    return rows
+    const [rows] = await promisePool.query(query, values);
+
+    return rows;
   } catch (error) {
-    console.log("error", error)
-    throw error
+    console.log('error', error);
+    throw error;
   }
 }
