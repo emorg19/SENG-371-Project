@@ -1,0 +1,41 @@
+version: "3"
+services:
+  ## Build mysql docker image
+  db:
+    container_name: db
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - 3306:3306
+    networks:
+      - seng-network
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database/setup.sql:/docker-entrypoint-initdb.d/setup.sql
+      - ./database/data.sql:/docker-entrypoint-initdb.d/data.sql
+
+  ## Build the app docker image
+  app:
+    build:
+      context: ./app
+    ports:
+      - "3000:3000"
+    container_name: app
+    stdin_open: true
+    volumes:
+      - ./app:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - seng-network
+
+networks:
+  seng-network:
+    driver: bridge
+
+volumes:
+    db_data:
